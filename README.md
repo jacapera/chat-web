@@ -1,6 +1,15 @@
 # Aplicación de Chat Web
 
-![Captura de Pantalla de la Aplicación de Chat](link_a_captura.png)
+
+## ScreenShots
+### Register
+<img width="400px" src="./client/src/assets/screenShot/register.jpg"/>
+
+### Login
+<img width="400px" src="./client/src/assets/screenShot/login.jpg"/>
+
+### Chat
+<img width="800px" src="./client/src/assets/screenShot/chat.jpg"/>
 
 ¡Bienvenido al repositorio de la Aplicación de Chat Web! Este proyecto es una aplicación de chat en tiempo real construida utilizando Node.js, Express, Sequelize, PostgreSQL, JWT para el backend, y React, Redux, Redux Toolkit, Tailwind CSS y CSS puro para el frontend.
 
