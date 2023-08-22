@@ -35,4 +35,4 @@ node_modules/
 notes.txt
 
 # Ignorar archivos en la estructura de subdirectorios de uploads
-uploads/**/*
+servidor/src/uploads/**/*
