@@ -1,0 +1,54 @@
+.buttonRegister[type="submit"]:disabled {
+    background-color: #ccc;
+    color: rgb(46, 43, 43);
+    cursor: not-allowed;
+}
+
+/*                       BOTON ADJUNTAR ARCHIVO                 */
+/* ------------------------------------------------------------ */
+/* Estilos para el botón personalizado de carga de archivos */
+.custom-file-upload {
+    /* Estilos de tamaño, relleno, colores, bordes, etc. */
+    padding: 2px 4px;
+    background-color: rgb(107, 114, 122);
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 4px;
+    /* Otras propiedades de estilo que desees agregar */
+  }
+  
+  .custom-file-upload:hover {
+    background-color: rgb(164, 165, 167); /* Estilo al pasar el cursor sobre el botón */
+    transform: scale(1.1);
+  }
+
+  .label-img{
+    overflow-wrap: break-word;
+  }
+
+  /* scrollbar.css */
+
+.custom-scrollbar-horizontal {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap; /* Para asegurar que el contenido no se rompa en varias líneas */
+}
+
+.custom-scrollbar-horizontal::-webkit-scrollbar {
+  height: 8px;
+}
+
+.custom-scrollbar-horizontal::-webkit-scrollbar-track {
+  background-color: transparent;
+  border-radius: 4px; /* Aplica el border-radius deseado */
+}
+
+.custom-scrollbar-horizontal::-webkit-scrollbar-thumb {
+  background-color: #1A233B;
+  border-radius: 4px; /* Aplica el border-radius deseado */
+}
+
+.custom-scrollbar-horizontal::-webkit-scrollbar-thumb:hover {
+  background-color: #d0ced4;
+}

@@ -1,0 +1,38 @@
+# Ignorar carpetas y archivos generados por el sistema
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.env
+
+# Ignorar carpetas y archivos relacionados con editores y entornos de desarrollo
+.vscode/*
+!.vscode/extensions.json
+.idea
+
+# Ignorar carpetas y archivos generados por herramientas de construcción
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Ignorar archivos de registro
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Ignorar carpetas y archivos de terceros
+public/
+node_modules/
+
+# Ignorar notas.txt (si realmente no quieres incluirlo)
+notes.txt
+
+# Ignorar archivos en la estructura de subdirectorios de uploads
+uploads/**/*
