@@ -6,6 +6,9 @@ const { userAuthenticated } = require('../middleware/auth');
 const router = express.Router();
 
 const mdUserImg = multiparty({uploadDir: 'src/uploads/users'});
+const uploadImageUser = require('../helpers/uploadImageUser.js')
+const uploadImage = uploadImageUser("src/uploads/users");
+
 
 router.get('/', userAuthenticated, async (req, res) => {
   try {
@@ -26,17 +29,17 @@ router.get('/:user_id', userAuthenticated, async (req, res) => {
   }
 });
 
-router.post('/create', mdUserImg,  async (req, res) => {
+router.post('/create', uploadImage.single("image"), async (req, res) => {
   try {
-    console.log(req.body)
-    console.log(req.files)
+    //console.log("body", req.body)
+    //console.log("file", req.file)
     req.body.image = '';
-    if(req.files.image){
-      req.body.image = getFilePath(req.files.image)
+    if(req.file){
+      req.body.image = getFilePath(req.file)
     }
     return res.status(201).json(await controllers.postUser(req.body));
   } catch (error) {
-    console.log(error)
+    //console.log(error)
     if(error){
       unlinkFile(req.body.image)
     }

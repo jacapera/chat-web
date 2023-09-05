@@ -6,6 +6,6 @@ const { conn } = require('./src/db');
 
 conn.sync({force: false}).then(() => {
   serverSocket.listen(PORT, () => {
-    console.log(`Sever socket listening on ${PORT}`);
+    console.log(`Sever listening on http://localhost:${PORT}`);
   });
 });

@@ -28,7 +28,7 @@ let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].s
 sequelize.models = Object.fromEntries(capsEntries);
 
 
-console.log(sequelize.models)
+//console.log(sequelize.models)
 const { User, Message, Chat, GroupParticipant } = sequelize.models;
 
 // Definición de la relación entre User y Chat

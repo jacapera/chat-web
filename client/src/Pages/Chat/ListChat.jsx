@@ -1,42 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setListChats, setSelectedUser } from '../../redux/appSlice';
+import { setListChats, listChatsByUser } from '../../redux/appSlice';
 const apiUrl = import.meta.env.VITE_URL_API;
 
-const ListChat = ({ onUserSelect, socket }) => {
+const ListChat = ({ onUserSelect }) => {
 
   // *------------- Estados Globales --------------
   const listChats = useSelector(state => state.app.listChats);
   const user = useSelector(state => state.users);
-  const selectedUser = useSelector(state => state.app.selectedUser)
 
   const dispatch = useDispatch();
 
-  const getChats = (user_id) => {
-    axios.get(`${apiUrl}/api/v1/chats/${user.user_id}`,{
-      headers: {
-        "Authorization": `Bearer ${user.token}`,
-        "Content-Type": "application/json",
-      }
-    }).then((response) => {
-      const chatsWithDate = response.data.map(item => ({
-        ...item,
-        updated_at: new Date(item.updated_at)
-      }))
-      const orderedChats = chatsWithDate.sort((a, b) =>
-        b.updated_at - a.updated_at  )
-      const chatsUpdateString = orderedChats.map(item => ({
-        ...item,
-        updated_at: item.updated_at.toISOString()
-      }))
-      dispatch(setListChats(chatsUpdateString))
-    })
-  };
-
   useEffect(() => {
     if(user.access){
-      getChats(user.user_id);
+      dispatch(listChatsByUser({user_id:user.user_id, token: user.token}))
+        .then(response => {
+          dispatch(setListChats(response.payload))
+        })
       console.log("listChat: ", listChats)
     }
   }, [user.access]);
@@ -44,7 +24,7 @@ const ListChat = ({ onUserSelect, socket }) => {
   return (
     <div >
       {
-        listChats.map((item, index) =>
+        listChats?.map((item, index) =>
         (
           <div key={index} onClick={() => onUserSelect(item)}
             className='cursor-pointer'

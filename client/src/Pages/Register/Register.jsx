@@ -28,10 +28,7 @@ const Register = () => {
   const fileInputRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
-  // *=====================================================
-  // *                  HANDLERS
-  // *=====================================================
+
   const handleChange = event => {
     const { value, name } = event.target;
     setFormRegister({
@@ -69,15 +66,7 @@ const Register = () => {
   const handleFilechange = (event) => {
     const file = event.target.files[0];
     if(file){
-      console.log('file: ', file);
-      const image={
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        lastModifiedDate: file.lastModifiedDate,
-        lastModified: file.lastModified,
-        data: file
-      }
+      //console.log('file: ', file);
       setFormRegister({
         ...formRegister,
         image: file

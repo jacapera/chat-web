@@ -226,14 +226,7 @@ const Chat = () => {
     return () => {socket?.off("mensaje-recibido", receiveMessage)};
   }, [socket, listChats, user, receiveMessage,]);
 
-
-  useEffect(() => {
-    socket?.on("actualizar-mensajes", receiveMessage )
-    return () => socket?.off("actualizar-mensajes", receiveMessage)
-  },[socket, messages, selectedUser]);
 //?===========================================================
-  // *============== FUNCIONES ===============================
-
   // Función para cambiar el estado de isMinimized
   const toggleMinimize = (event) => {
     event.preventDefault();
@@ -255,7 +248,8 @@ const Chat = () => {
     dispatch(setSelectedUser({}));
     dispatch(setListChats([]));
   };
-  // *=============== CICLOS DE VIDA ===========================
+  
+  
   // --- Escuchando Eventos del Servidor mensajes grupales -----
   // useEffect(() => {
   //   socket.on("message", receiveMessage);

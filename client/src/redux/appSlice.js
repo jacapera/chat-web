@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-const { VITE_URL_POSTMESSAGE } = import.meta.env;
+const { VITE_URL_POSTMESSAGE, VITE_URL_GETCHATSBYUSER } = import.meta.env;
 
 const initialState = {
   isMinimized: false,
@@ -12,9 +12,25 @@ const initialState = {
   listChats:[],
 }
 
-export const postMessage = createAsyncThunk("app/postMessage", async(sender_id, receiver_id, content) => {
+export const postMessage = createAsyncThunk("app/postMessage", async({sender_id, receiver_id, content, token}) => {
   try {
     const { data } = await axios.post(VITE_URL_POSTMESSAGE, {
+      sender_id, receiver_id, content
+    }, {
+      headers:{
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      }
+    });
+    return data;
+  } catch (error) {
+    return error.response
+  }
+});
+
+export const listChatsByUser = createAsyncThunk("app/listChatsByUser", async({user_id, token}) => {
+  try {
+    const { data } = await axios.get(`${VITE_URL_GETCHATSBYUSER}/${user_id}`, {
       headers:{
         "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json",

@@ -20,19 +20,15 @@ const getChatsByUser = async (user_id) => {
       },
       {
         model: Message,
-        include: [
-          { 
-            model: User,
-            attributes:[
-              "userName",
-              
-            ]
-          },
-        ],
       },
     ],
-    //order: [['updated_at', 'DESC']],
   });
+
+  // ordenar los mensajes de cada chat por fecha de creación
+  chats.forEach((chat) =>{
+    return chat.Messages.sort((a, b) => a.createdAt - b.createdAt)
+  })
+
   return chats;
 };
 
