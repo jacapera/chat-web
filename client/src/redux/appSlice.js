@@ -12,14 +12,12 @@ const initialState = {
   listChats:[],
 }
 
-export const postMessage = createAsyncThunk("app/postMessage", async({sender_id, receiver_id, content, token}) => {
+export const postMessage = createAsyncThunk("app/postMessage", async({formData, token}) => {
   try {
-    const { data } = await axios.post(VITE_URL_POSTMESSAGE, {
-      sender_id, receiver_id, content
-    }, {
+    const { data } = await axios.post(VITE_URL_POSTMESSAGE, formData, {
       headers:{
         "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json",
+        "Content-Type":'multipart/form-data',
       }
     });
     return data;
@@ -38,7 +36,8 @@ export const listChatsByUser = createAsyncThunk("app/listChatsByUser", async({us
     });
     return data;
   } catch (error) {
-    return error.response
+    console.log("ERROR listChatsByUser: ", error)
+    return error.response.data
   }
 });
 
@@ -66,9 +65,6 @@ export const appSlice = createSlice({
     },
     setListChats: (state, action) => {
       state.listChats = action.payload;
-    },
-    addMessageToSelectedUser: (state, action) => {
-      state.selectedUser?.Messages.push(action.payload);
     },
   }
 });

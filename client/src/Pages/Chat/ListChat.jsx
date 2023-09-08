@@ -11,13 +11,24 @@ const ListChat = ({ onUserSelect }) => {
 
   const dispatch = useDispatch();
 
+  //Acortar el ultimo mensaje para mostrar en la lista de chats
+  const shorteningMessage = (message) => {
+    if(message.length > 15){
+      return message.slice(0, 15) + "...";
+    }
+    return message
+  }
+
+  // Cargar la lista de chats cuando el usuario se logea
   useEffect(() => {
     if(user.access){
       dispatch(listChatsByUser({user_id:user.user_id, token: user.token}))
         .then(response => {
           dispatch(setListChats(response.payload))
+        }).catch(error => {
+          console.log("ERROR: ", error);
         })
-      console.log("listChat: ", listChats)
+      //console.log("listChat: ", listChats)
     }
   }, [user.access]);
 
@@ -40,7 +51,7 @@ const ListChat = ({ onUserSelect }) => {
                       <h2
                         className='font-bold'
                       >{(item.UserSent.userName !== user.userName) ? item.UserSent.userName : item.UserReceived.userName}</h2>
-                      <h2>{item.Messages[item.Messages.length-1]?.content}</h2>
+                      <h2>{shorteningMessage(item.Messages[item.Messages.length-1]?.content)}</h2>
                     </div>
                   </div>
                 </div>

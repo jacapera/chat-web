@@ -37,6 +37,9 @@ module.exports = (sequelize) => {
       type: DataTypes.TEXT,
       allowNull:false
     },
+    file:{
+      type: DataTypes.STRING
+    },
     messageStatus:{
       type: DataTypes.STRING,
       defaultValue: "sent",

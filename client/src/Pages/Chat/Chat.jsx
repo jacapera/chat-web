@@ -8,7 +8,8 @@ import Messages from '../../components/Messages/Messages'
 //import scrollbar from './scrollbar.css?inline';
 import scrollbar from './scrollbar.css';
 import {
-  addMessageToSelectedUser,
+  listChatsByUser,
+  postMessage,
   selectActiveChatMessages, selectIsMinimized, selectMessages, selectSelectedUser,
   setActiveChatMessages, setIsMinimized, setListChats, setMessages, setSelectedUser
 } from '../../redux/appSlice';
@@ -16,7 +17,7 @@ import {
 import Login from '../Login/Login';
 import ListUsers from './ListUsers';
 import { selectAllUsers, setAllUsers, setUser } from '../../redux/usersSlice';
-import { Settings } from '@mui/icons-material';
+import { PlaylistAddCircleRounded, Settings } from '@mui/icons-material';
 import ListChat from './ListChat';
 import axios from 'axios';
 const apiUrl = import.meta.env.VITE_URL_API;
@@ -94,18 +95,18 @@ const Chat = () => {
       //window.open(URL.createObjectURL(file))
     }
   };
-//?=======================================================================
+
   const messagePrivateFile = (event) => {
     event.preventDefault();
-    // if(Object.keys(selectedUser).length === 0) {
-    //   setMessageInfo('Selecciona un usuario para enviar mensaje')
-    //   openModal()
-    //   return
-    // }
+    if(Object.keys(selectedUser).length === 0) {
+      setMessageInfo('Selecciona un usuario para enviar mensaje')
+      openModal()
+      return
+    }
     const sender_id = user.user_id;
-    //const receiver_id = selectedUser?.UserReceived?.user_id === user.user_id
-      //? selectedUser.UserSent?.user_id : selectedUser?.UserSent?.user_id === user.user_id
-      //? selectedUser?.UserReceived?.user_id : selectedUser?.user_id !== user.user_id && selectedUser?.user_id;
+    const receiver_id = selectedUser?.UserReceived?.user_id === user.user_id
+      ? selectedUser.UserSent?.user_id : selectedUser?.UserSent?.user_id === user.user_id
+      ? selectedUser?.UserReceived?.user_id : selectedUser?.user_id !== user.user_id && selectedUser?.user_id;
     const content = messageChat;
     const userNameReceptor =
       selectedUser?.UserReceived?.userName === user.userName
@@ -113,120 +114,87 @@ const Chat = () => {
       ? selectedUser?.UserReceived?.userName : selectedUser?.userName !== user.userName
       && selectedUser?.userName;
     const userNameEmisor = user.userName;
-    const createAt = new Date();
-    //const emisor = user.user_id;
-    //const receptor = selectedUser?.user_id;
-    //const imageReceptor = selectedUser?.image;
-    //const imageEmisor = image;
-    const file = {
-      name: selectedFile?.name,
-      size: selectedFile?.size,
-      type: selectedFile?.type,
-      lastModifiedDate: selectedFile?.lastModifiedDate,
-      lastModified: selectedFile?.lastModified,
-      data: selectedFile
-    }
-    //setMessages([...messages, {emisor, receptor, messageChat, userNameEmisor, userNameReceptor, imageEmisor, imageReceptor, fecha, file}]);
-    socket.emit("private-message",
+    try {
+      const formData = new FormData();
+      formData.append('sender_id', sender_id)
+      formData.append('receiver_id', receiver_id)
+      formData.append('content', content)
+      formData.append('file', selectedFile )
+      dispatch(postMessage({formData, token: user.token}))
+      socket.emit("private-message",
       {
-        sender_id, userNameReceptor, userNameEmisor, createAt, file, content
+        sender_id, receiver_id, userNameReceptor, userNameEmisor
       });
-    setMessageChat("");
-    setSelectedFile(null);
-    setPreview(false);
-  };
-
-
-  const messagePrivate = (event) => {
-    event.preventDefault();
-    if(Object.keys(selectedUser).length === 0) {
-      setMessageInfo('Selecciona un usuario para enviar mensaje')
-      openModal()
-      return
-    }
-    if(messageChat !== '' ){
-      //const fecha = formatDate(new Date());
-      const sender_id = user.user_id;
-
-      const receiver_id = selectedUser?.UserReceived?.user_id === user.user_id
-        ? selectedUser.UserSent?.user_id : selectedUser?.UserSent?.user_id === user.user_id
-        ? selectedUser?.UserReceived?.user_id : selectedUser?.user_id !== user.user_id && selectedUser?.user_id;
-
-      const content = messageChat;
-      const userNameReceptor =
-        selectedUser?.UserReceived?.userName === user.userName
-        ? selectedUser?.UserSent?.userName : selectedUser?.UserSent?.userName === user.userName
-        ? selectedUser?.UserReceived?.userName : selectedUser?.userName !== user.userName
-        && selectedUser?.userName;
-      //const imageReceptor = selectedUser?.image;
-      const userNameEmisor = userName;
-      //const imageEmisor = image;
-      // dispatch(setMessages([...messages,
-      //   {
-      //     emisor, receptor, messageChat, userNameEmisor, userNameReceptor, imageEmisor, imageReceptor, fecha
-      //   }
-      // ]));
-      socket?.emit("private-message",
-        {
-          sender_id, receiver_id, content, userNameReceptor, userNameEmisor
-        });
       setMessageChat("");
+      setSelectedFile(null);
       setPreview(false);
+    } catch (error) {
+      setMessageInfo(error.message)
+      openModal()
     }
   };
+
+
+  // const messagePrivate = (event) => {
+  //   event.preventDefault();
+  //   if(Object.keys(selectedUser).length === 0) {
+  //     setMessageInfo('Selecciona un usuario para enviar mensaje')
+  //     openModal()
+  //     return
+  //   }
+  //   if(messageChat !== '' ){
+  //     //const fecha = formatDate(new Date());
+  //     const sender_id = user.user_id;
+
+  //     const receiver_id = selectedUser?.UserReceived?.user_id === user.user_id
+  //       ? selectedUser.UserSent?.user_id : selectedUser?.UserSent?.user_id === user.user_id
+  //       ? selectedUser?.UserReceived?.user_id : selectedUser?.user_id !== user.user_id && selectedUser?.user_id;
+
+  //     const content = messageChat;
+  //     const userNameReceptor =
+  //       selectedUser?.UserReceived?.userName === user.userName
+  //       ? selectedUser?.UserSent?.userName : selectedUser?.UserSent?.userName === user.userName
+  //       ? selectedUser?.UserReceived?.userName : selectedUser?.userName !== user.userName
+  //       && selectedUser?.userName;
+  //     const userNameEmisor = userName;
+  //     const formData = {
+  //       sender_id,
+  //       receiver_id,
+  //       content
+  //     }
+  //     dispatch(postMessage({formData, token:user.token}))
+  //     socket?.emit("private-message",
+  //       {
+  //         sender_id, receiver_id, userNameReceptor, userNameEmisor
+  //       });
+  //     setMessageChat("");
+  //     setPreview(false);
+  //   }
+  // };
 
   // Guardar todos los mensajes para renderizar
-  const receiveMessage = response => {
-    console.log("servidor-messages: ", response)
-    //dispatch(setSelectedUser(listChats[listChats.length - 1]))
-    //setMessages(state => [...state, message]);
-    axios.get(`${apiUrl}/api/v1/chats/${user.user_id}`,{
-      headers: {
-        "Authorization": `Bearer ${user.token}`,
-        "Content-Type": "application/json",
-      }
-    }).then(({data}) => {
-      const chatsWithDate = data.map(item => ({
-        ...item,
-        updated_at: new Date(item.updated_at)
-      }))
-      const orderedChats = chatsWithDate.sort((a, b) =>
-        b.updated_at - a.updated_at  )
-      const chatsUpdateString = orderedChats.map(item => ({
-        ...item,
-        updated_at: item.updated_at.toISOString()
-      }))
-        dispatch(setListChats(chatsUpdateString));
-        dispatch(setSelectedUser(chatsUpdateString[0]))
-        // listChats.map(item =>{
-        //   if(item.UserSent.user_id === user.user_id || item.UserReceived.user_id === user.user_id){
-        //     dispatch(setSelectedUser(item))
-        //   }
-        // })
-
-        if (response.file){
-          dispatch(addMessageToSelectedUser(response));
-          console.log("selectedUser: ", selectedUser)
-        }
-      }).catch(error => {
-        setMessageInfo(error.response)
-        openModal()
-      })
-    //dispatch(setListChats(listChats));
+  const receiveMessage = data => {
+    dispatch(listChatsByUser({user_id:user.user_id, token: user.token}))
+    .then(({payload}) => {
+      dispatch(setListChats(payload))
+      dispatch(setSelectedUser(payload[0]))
+    }).catch(error => {
+      console.log("PAYLOAD: ", error)
+    })
   }
+
   // Abri y cerrar ventana modal
   const openModal = () => { setIsModalOpen(true) };
   const closeModal = () => {
     setIsModalOpen(false)
     setMessageInfo('');
   };
-
+  // Escuchando evento para recibir mensaje en tiempo real
   useEffect(() => {
     socket?.on("mensaje-recibido", receiveMessage)
     return () => {socket?.off("mensaje-recibido", receiveMessage)};
   }, [socket, listChats, user, receiveMessage,]);
 
-//?===========================================================
   // Función para cambiar el estado de isMinimized
   const toggleMinimize = (event) => {
     event.preventDefault();
@@ -248,13 +216,6 @@ const Chat = () => {
     dispatch(setSelectedUser({}));
     dispatch(setListChats([]));
   };
-  
-  
-  // --- Escuchando Eventos del Servidor mensajes grupales -----
-  // useEffect(() => {
-  //   socket.on("message", receiveMessage);
-  //   return () => {socket.off("message", receiveMessage)};
-  // },[]);
 
   //Conexión de Socket al servidor
   useEffect(() => {
@@ -266,49 +227,16 @@ const Chat = () => {
     };
   },[]);
 
-  
   // Envia username para agregar usuario conectados al servidor
   useEffect(() => {
     socket?.emit("newUser", userName);
   },[socket, userName]);
-
-
-  // useEffect(() => {
-  //   socket?.on("usuario-esta-desconenctado", data => {
-  //     setMessage(data);
-  //     messages.pop();
-  //     openModal();
-  //   });
-  //   return () => {socket?.off("usuario-esta-desconenctado", data)};
-  // },[socket]);
-
-  // useEffect(() => {
-  //   socket?.on("mensaje-pendiente", receiveMessage);
-  //   return () => {socket?.off("mensaje-pendiente", receiveMessage)};
-  // },[message]);
-
-  // Para Debugin
-  useEffect(() => {
-    //console.log('filePreviwe: ', filePreview);
-    //console.log('selectedFile: ', selectedFile);
-    //console.log('preview: ', preview)
-    //console.log('isMinimizeDefaul-false: ',isMinimized);
-    //console.log('userName: ',userName);
-    //console.log('image: ', image);
-  },[filePreview, selectedFile, preview, isMinimized,userName]);
 
   useEffect(() => {
     if(Object.keys(selectedUser).length === 0){
       listChats.length > 0 && dispatch(setSelectedUser(listChats[0]))
     }
   }, []);
-
-   // Obtiene el valor de la propiedad 'image' del último objeto en activeChatMessages
-   //const lastImage = selectedUser?.image;
-
-   // Utiliza el operador de fusión nula (??) para mostrar selectedUser.image si existe,
-   // de lo contrario, muestra lastImage.
-   //const imageToShow = selectedUser?.UserReceived?.image ?? lastImage;
 
   return (
     <div className={`flex w-[100%] border-2 ${!access && "hidden"}`}>
@@ -381,7 +309,7 @@ const Chat = () => {
 
               {/** //*CONTENEDOR DEL FORM, INPUT PARA TIPEAR MENSAJE */}
               {/** //*-------------------------------------------- */}
-              <form onSubmit={messagePrivate}>
+              <form onSubmit={messagePrivateFile}>
                 <div className={`flex w-[69%] justify-between h-[60px] mt-[10px] p-2 bg-gray-500 fixed bottom-0 ${preview && "hidden"}`}>
                   { // Validación
                     !selectedFile &&

@@ -4,7 +4,7 @@ const path = require('path')
 const uploadImageUser = (destino) => {
   const storage = multer.diskStorage({
     destination: function(req, file, cb){
-      console.log("file", file)
+      //console.log("file", file)
       cb(null, destino );
     },
     filename: function(req, file, cb){

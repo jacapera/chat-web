@@ -22,6 +22,7 @@ const getChatsByUser = async (user_id) => {
         model: Message,
       },
     ],
+    order:[["updated_at", "DESC"]]
   });
 
   // ordenar los mensajes de cada chat por fecha de creación

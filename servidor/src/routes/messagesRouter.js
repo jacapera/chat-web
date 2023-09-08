@@ -3,6 +3,10 @@ const express = require('express');
 const { userAuthenticated } = require('../middleware/auth');
 const router = express.Router();
 
+const uploadFile = require('../helpers/uploadFile.js');
+const { getFilePath, unlinkFile } = require('../helpers/auth');
+const uploadFileUser = uploadFile("src/uploads/files")
+
 router.get("/", userAuthenticated, async (req, res) => {
   try {
     return res.status(200).json(await controllers.getMessages());
@@ -11,14 +15,16 @@ router.get("/", userAuthenticated, async (req, res) => {
   }
 });
 
-router.post("/create", userAuthenticated, async (req, res) => {
+router.post("/create",  userAuthenticated, uploadFileUser.single("file"), async (req, res) => {
   try {
-    const { sender_id, receiver_id, content } = req.body
-    console.log("reqbody: ",req.body)
-    //const { user_id, content } = req.body;
-    return res.status(200).json(await controllers.postMessage( sender_id, receiver_id, content));
+    req.body.file = '';
+    if(req.file){
+      req.body.file = getFilePath(req.file)
+    }
+    return res.status(200).json(await controllers.postMessage( req.body));
   } catch (error) {
-    console.log (error)
+    //console.log (error)
+    unlinkFile(req.body.file)
     return res.status(500).json({message: error.message});
   }
 });

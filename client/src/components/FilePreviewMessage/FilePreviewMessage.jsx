@@ -1,5 +1,6 @@
 import React from 'react'
 import PDFPreview from '../PDFPreview/PDFPreview'
+const apiUrl = import.meta.env.VITE_URL_API;
 
 const FilePreviewMessage = ({file, filePreview}) => {
 
@@ -11,8 +12,8 @@ const FilePreviewMessage = ({file, filePreview}) => {
     // Establecer el nombre del archivo de descarga (nombre con el que se guardará en el disco)
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
-    link.href = url;
-    link.download = name;
+    link.href = `${apiUrl}/${fileData}`;
+    link.download = fileData.split("/").pop();
     link.click();
   };
 
@@ -43,7 +44,8 @@ const FilePreviewMessage = ({file, filePreview}) => {
         (file.type === "application/pdf" && file.data instanceof ArrayBuffer)
           ? <PDFPreview src={arrayBufferToUrl(file?.data, file?.type)} name={file.name} />
           : <img
-            src={file && file.data instanceof ArrayBuffer ? `data:${file.type};base64,${arrayBufferToBase64(file.data)}`: filePreview}
+          src={`${apiUrl}/${file}`}
+            // src={file && file.data instanceof ArrayBuffer ? `data:${file.type};base64,${arrayBufferToBase64(file.data)}`: filePreview}
             alt={file.name}
             className='flex w-[200px] object-scale-down'
             />

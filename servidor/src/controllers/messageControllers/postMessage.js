@@ -1,8 +1,9 @@
 const { Message, Chat } = require('../../db');
 const { Op } = require('sequelize');
 
-const postMessage = async(sender_id, receiver_id, content) => {
-  console.log(sender_id, receiver_id, content)
+const postMessage = async(message) => {
+  //console.log("MENSAJE: ",message)
+  const { sender_id, receiver_id, content, file } = message
   try {
     // Buscar un chat existente entre el remitente y el receptor
     let chat = await Chat.findOne({
@@ -27,6 +28,7 @@ const postMessage = async(sender_id, receiver_id, content) => {
       sender_id,
       receiver_id,
       content,
+      file,
     });
     chat.updated_at = new Date();
     await chat.save();
