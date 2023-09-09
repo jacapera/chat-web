@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-const { VITE_URL_POSTMESSAGE, VITE_URL_GETCHATSBYUSER } = import.meta.env;
+const {
+  VITE_URL_POSTMESSAGE,
+  VITE_URL_GETCHATSBYUSER,
+  VITE_URL_DELETEMESSAGE,
+} = import.meta.env;
 
 const initialState = {
   isMinimized: false,
@@ -23,6 +27,20 @@ export const postMessage = createAsyncThunk("app/postMessage", async({formData, 
     return data;
   } catch (error) {
     return error.response
+  }
+});
+
+export const deleteMessage = createAsyncThunk("app/deleteMessage", async({message_id, token}) => {
+  try {
+    const { data } = await axios.delete(`${VITE_URL_DELETEMESSAGE}/${message_id}`, {
+      headers:{
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json",
+      }
+    });
+    return data;
+  } catch (error) {
+    return error.response;
   }
 });
 

@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import adjuntarIcon from '../../assets/adjuntar.png';
 import enviarIcon from '../../assets/enviar.png';
 import Messages from '../../components/Messages/Messages'
+import AddCommentIcon from '@mui/icons-material/AddComment';
 //import scrollbar from './scrollbar.css?inline';
 import scrollbar from './scrollbar.css';
 import {
@@ -254,6 +255,7 @@ const Chat = () => {
                   <img className='w-full h-full object-cover rounded-full' src={`${apiUrl}/${image}`} alt='imagen de perfil' />
                 </div>
                 <h1 className='my-2 text-[25px]'>{userName}</h1>
+                <AddCommentIcon className='text-blue-700 cursor-pointer' />
               </div>
               <div>
                 <ListUsers onUserSelect={handleUserSelection} socket={socket} messages={messages} />

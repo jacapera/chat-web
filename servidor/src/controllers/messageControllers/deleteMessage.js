@@ -1,9 +1,19 @@
 const { Message } = require('../../db');
+const { unlinkFile } = require('../../helpers/auth');
 
-const deleteMessage = async (id) => {
-  const messageDelected = await Message.destroy({
-    where: { id }
-  })
+const deleteMessage = async (message_id) => {
+  const messageDelected = await Message.findOne({where: { message_id }})
+  if(messageDelected){
+    if(messageDelected.file){
+      unlinkFile(messageDelected.file)
+      messageDelected.file = null
+      messageDelected.content = "🚫 Este archivo ya no esta disponible."
+      await messageDelected.save()
+    } else {
+      messageDelected.content = "🚫 Eliminaste este mensaje."
+      await messageDelected.save()
+    }
+  }
   return messageDelected;
 };
 

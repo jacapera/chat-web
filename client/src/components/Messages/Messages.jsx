@@ -25,6 +25,7 @@ const Messages = ({socket, preview, selectedFile, filePreview, handleCancelUploa
         selectedUser?.Messages?.map((item, index) => (
           <Message
             key={index}
+            message_id={item.message_id}
             sender_id={item.sender_id}
             createdAt={item.createdAt}
             content={item.content}

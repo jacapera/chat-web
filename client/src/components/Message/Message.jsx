@@ -1,12 +1,15 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import style from './Message.module.css'
 import FilePreviewMessage from '../FilePreviewMessage/FilePreviewMessage'
+import { deleteMessage, listChatsByUser, setListChats, setSelectedUser } from '../../redux/appSlice'
 
-const Message = ({sender_id, createdAt, content, file, filePreview}) => {
+const Message = ({message_id, sender_id, createdAt, content, file, filePreview}) => {
 
 // *================  ESTADOD GLOBALES =====================
   const user = useSelector(state => state.users);
+
+  const dispatch = useDispatch();
 
   // Formatear fecha
   const formatDate = (date) => {
@@ -21,6 +24,27 @@ const Message = ({sender_id, createdAt, content, file, filePreview}) => {
     return `${nombreDiaSemana} ${hora}:${minutos}`;
   };
 
+  const handleOptionChange = (event) => {
+    const selectedValue = event.target.value;
+    if(selectedValue === "eliminar"){
+      handleDeleteMessage()
+    }
+  }
+
+  const handleDeleteMessage = () => {
+    dispatch(deleteMessage({message_id, token: user.token}))
+      .then(response => {
+        console.log("DELETEMESSAGE", response)
+        dispatch(listChatsByUser({user_id: user.user_id, token: user.token}))
+          .then( response => {
+            console.log("Actualizando", response)
+            dispatch(setListChats(response.payload))
+          })
+      }).catch(error => {
+        console.log("ERROR: ", error)
+      })
+  }
+
   return (
     <div
       className={` my-[2px] mx-[10px] p-[15px] text-sm w-fit max-w-[60%] rounded-lg
@@ -29,11 +53,19 @@ const Message = ({sender_id, createdAt, content, file, filePreview}) => {
       {/* <span
         className='text-[18px] font-bold text-slate-300 flex relative right-[40px]'
       >{item.User.userName}</span> */}
+      <div className='flex '>
+        <span
+          className={`text-sm `}
+        >{formatDate(new Date(createdAt))}</span>
+        {
+          sender_id === user.user_id &&
+            <select defaultValue="default" onChange={handleOptionChange} className={ `bg-blue-200 w-[15px]`}>
+              <option value="default" hidden></option>
+              <option value="eliminar" >Eliminar</option>
+            </select>
+        }
 
-      <span
-        className={`text-sm `}
-      >{formatDate(new Date(createdAt))}</span>
-
+      </div>
       {
         file && <FilePreviewMessage file={file} filePreview={filePreview} />
       }

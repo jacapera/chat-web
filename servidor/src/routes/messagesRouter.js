@@ -29,10 +29,11 @@ router.post("/create",  userAuthenticated, uploadFileUser.single("file"), async 
   }
 });
 
-router.delete("/:id", userAuthenticated, async (req, res) => {
+router.delete("/:message_id", userAuthenticated, async (req, res) => {
   try {
-    const { id } = req.params;
-    return res.status(200).json(await controllers.deleteMessage(id));
+    const { message_id } = req.params;
+    console.log(message_id)
+    return res.status(200).json(await controllers.deleteMessage(message_id));
   } catch (error) {
     return res.status(500).json({message: error.message});
   }
