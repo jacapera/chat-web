@@ -25,6 +25,7 @@ const ContainerViewChats = ({ socket }) => {
   const user = useSelector(state => state.users);
   const error = useSelector(selectError)
   const isMinimized = useSelector(selectIsMinimized);
+  const listChats = useSelector(state => state.app.listChats);
 
   const fileInputRef = useRef(null);
   const dispatch = useDispatch();
@@ -145,20 +146,30 @@ const ContainerViewChats = ({ socket }) => {
     <div className={`${style.container} h-[calc(100vh-70px)] relative  border-[1px] border-slate-500 `}>
     {/* ENCABEZADO DERECHO (foto y nombre del Chat actual, ya se grupal o individual) */}
     <div className='flex justify-between items-center pr-[15px] gap-1 bg-slate-500 w-[100%] h-[60px] '>
-      <div className='flex items-center  ml-[5px] gap-3'>
-        <div className='flex w-[50px] h-[50px] rounded-full bg-gray-500'>
-          {/* Foto del grupo o usuario al que se le envia mensajes */}
-          <img className='w-full h-full object-cover rounded-full'
-            src={(selectedUser?.UserReceived?.userName === user.userName)
-              ? `${apiUrl}/${selectedUser?.UserSent?.image}`
-              : `${apiUrl}/${selectedUser?.UserReceived?.image}` } alt='foto de perfil'
-          />
+      {
+        (listChats.length === 0 && Object.keys(selectedUser).length === 0)
+          ? <h2 className=' p-[15px] my-2 font-bold text-[25px] text-white'>No tienes chats...comienza uno</h2> :
+        <div className='flex items-center  ml-[5px] gap-3'>
+          <div className='flex w-[60px] h-[60px] p-[5px]  rounded-full bg-gray-500'>
+            {/* Foto del grupo o usuario al que se le envia mensajes */}
+            <img className='w-full h-full object-cover rounded-full'
+              src={selectedUser?.UserReceived?.userName === user.userName
+                ? `${apiUrl}/${selectedUser?.UserSent?.image}`
+                : selectedUser?.UserSent?.userName === user.userName
+                ? `${apiUrl}/${selectedUser?.UserReceived?.image}`
+                : selectedUser?.userName !== user.userName && `${apiUrl}/${selectedUser?.image}`
+              } alt='foto de perfil'
+            />
+          </div>
+          <h2 className='my-2 font-bold text-[25px]'>
+            {selectedUser?.UserReceived?.userName === user.userName
+              ? selectedUser?.UserSent?.userName
+              : selectedUser?.UserSent?.userName === user.userName
+              ? selectedUser?.UserReceived?.userName
+              : selectedUser?.userName !== user.userName && selectedUser?.userName
+            }</h2>
         </div>
-        <h2 className='my-2 font-bold text-[25px]'>
-          {selectedUser?.UserReceived?.userName === user.userName
-            ? selectedUser?.UserSent?.userName
-            : selectedUser?.UserReceived?.userName}</h2>
-      </div>
+      }
       {/* BOTONES CHAT */}
       <div className='flex gap-3 p-2'>
         {/* minimizar chat*/}
@@ -183,8 +194,10 @@ const ContainerViewChats = ({ socket }) => {
       preview={preview}
     />
     {/** //*CONTENEDOR DEL FORM, INPUT PARA TIPEAR MENSAJE */}
-    <form onSubmit={messagePrivateFile}>
-      <div className={`flex w-[70%] justify-between h-[60px] p-2 bg-gray-500 fixed bottom-[4px] ${preview && "hidden"}`}>
+    <form onSubmit={messagePrivateFile}
+      className='flex w-[70%]'
+    >
+      <div className={`flex w-[70%] max-w-[715px] h-[60px] p-2 bg-gray-500 fixed bottom-[7px] ${preview && "hidden"}`}>
         { // Validación
           !selectedFile &&
           (
@@ -207,7 +220,7 @@ const ContainerViewChats = ({ socket }) => {
           onKeyDown={handleKeyDow}
           autoComplete='off'
           placeholder='write your message' name='messageChat' value={messageChat}
-          className='border-2 border-zinc-500 p-2 w-full text-black rounded-lg'
+          className='border-2 border-zinc-500 p-2 w-[100%] text-black rounded-lg'
         />
         {/* ENVIAR */}
         <button

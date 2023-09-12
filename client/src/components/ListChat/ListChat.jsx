@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setListChats, listChatsByUser, setScroll } from '../../redux/appSlice';
 import style from './LIstChat.module.css';
+import { useLocation } from 'react-router-dom';
 const apiUrl = import.meta.env.VITE_URL_API;
 
 const ListChat = ({ onUserSelect }) => {
@@ -11,9 +12,11 @@ const ListChat = ({ onUserSelect }) => {
   const user = useSelector(state => state.users);
 
   const dispatch = useDispatch();
+  const location = useLocation();
 
   //Acortar el ultimo mensaje para mostrar en la lista de chats
   const shorteningMessage = (message) => {
+    //console.log(location)
     if(message && message.length > 15){
       return message.slice(0, 15) + "...";
     }

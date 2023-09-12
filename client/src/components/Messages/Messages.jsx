@@ -23,11 +23,11 @@ const Messages = ({
       messageContainer && (messageContainer.scrollTop = messageContainer.scrollHeight);
     }
   },[listChats, selectedUser, preview, filePreview])
-
+  //console.log(preview)
   return (
     <div
       ref={messagesRef}
-      className={`w-[100%] h-[calc(100%-120px)] pl-[5px] pr-[5px] bg-white items-end flex-col overflow-y-auto ${style.customScrollbar}`}
+      className={`${style.customScrollbar}`}
     >
       {
         selectedUser?.Messages?.map((item, index) => (

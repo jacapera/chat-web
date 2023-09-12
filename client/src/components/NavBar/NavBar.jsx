@@ -10,18 +10,18 @@ const NavBar = () => {
       <ul className='flex items-center gap-3'>
         <li className='flex items-center font-semibold text-lg'>
           <NavLink
-            to={'/inicio'}
+            to={'/view-list'}
             className={({isActive}) => isActive ? activeStyle: undefined }
           >
-            Inicio
+            Lista
           </NavLink>
         </li>
         <li className='flex items-center text-sm' >
           <NavLink
-            to={'/home'}
+            to={'/view-message'}
             className={({isActive}) => isActive ? activeStyle: undefined }
           >
-            Home
+            Chats
           </NavLink>
         </li>
       </ul>

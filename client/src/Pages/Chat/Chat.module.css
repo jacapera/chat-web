@@ -14,7 +14,7 @@
   background-color: #d0ced4;
 }
 
-@media screen and (min-width: 320px) and (max-width: 425px){
+@media screen and (min-width: 150px) and (max-width: 425px){
   .containerChat{
     display: none;
   }
@@ -23,6 +23,11 @@
   }
 }
 
+/* @media screen and (max-width: 1024px){
+  .containerChat{
+    width: 80%;
+  }
+} */
 @media screen and (min-width: 426px){
   .containerChat{
     display: flex;
@@ -30,12 +35,16 @@
     justify-content: flex-start;
     background-color: aqua;
     width: 100%;
+    max-width: 1024px;
     height: 100%;
   }
 
   .container{
     display: flex;
+    justify-content: center;
+    background-color: white;
     width: 100%;
+    /* max-width: 1424px; */
   }
 
   .li-message{

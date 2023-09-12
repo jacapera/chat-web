@@ -45,16 +45,22 @@ const App = () => {
 
 
   return (
-    <div className={`${style.container} `}>
+    <div className={`${style.containerApp} `}>
       { !access && !loggedUserJSON ? <Login /> : <NavBar /> }
-      <ContainerListsResponsive socket={socket} />
+      {location.pathname !== '/chat' ? <Chat socket={socket} /> : <ContainerListsResponsive socket={socket} />}
+      {
+        location.pathname !== '/view-list' ||
+        location.pathname !== '/login'
+          && <ContainerListsResponsive socket={socket} />
+      }
       <Routes>
         <Route path={'/inicio'} element={<Inicio />} />
         <Route path={'/home'} element={<Home />} />
         <Route path={'/login'} element={<Login />} />
         <Route path={'/register'} element={<Register />} />
         <Route path={'/chat'} element={<Chat socket={socket} />} />
-        <Route path={'/view'} element={<ContainerViewChatsResponsive socket={socket} />} />
+        <Route path={'/view-message'} element={<ContainerViewChatsResponsive socket={socket} />} />
+        <Route path={'view-list'} element={<ContainerListsResponsive socket={socket} />} />
         <Route path={'/*'} element={<NotFound />} />
       </Routes>
     </div>

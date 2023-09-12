@@ -13,6 +13,8 @@ const FilePreview = ({selectedFile, filePreview, handleCancelUpload, messagePriv
   const selectedUser = useSelector(selectSelectedUser)
   const user = useSelector(state => state.users);
 
+  console.log(filePreview)
+
   return (
     <div
       className='flex flex-col w-[100%] h-[80%] border-[3px] p-3 rounded-md my-2 justify-around items-center'

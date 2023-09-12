@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectSelectedUser, setError, setSelectedUser } from '../../redux/appSlice';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { selectAllUsers, setAllUsers } from '../../redux/usersSlice';
 import style from './ListUsers.module.css';
 const apiUrl = import.meta.env.VITE_URL_API;
@@ -16,21 +16,37 @@ const ListUsers = () => {
   // -------------------
   const allUsers = useSelector(selectAllUsers);
   const user = useSelector(state => state.users);
-  const selectedUser = useSelector(selectSelectedUser)
+  const selectedUser = useSelector(selectSelectedUser);
+  const listChats = useSelector(state => state.app.listChats);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = event => {
     const { value } = event.target;
     setUserFind(value);
   };
 
-    // Seleccionar un usuario
-    const handleUserSelection = (user) => {
-      dispatch(setSelectedUser(user));
-      setUsersFiltered([])
-      setUserFind("")
-      console.log('selectedUser: ',selectedUser);
-    };
+  const findUserInListChats = (user) => {
+    const findUser = listChats.filter(item => item.user1_id === user.user_id || item.user2_id === user.user_id);
+    //console.log("FINDUSER", findUser)
+    if(findUser.length > 0){
+      dispatch(setSelectedUser(findUser[0]));
+    } else {
+      //console.log("USER", user)
+      dispatch(setSelectedUser(user))
+    }
+    if(location.pathname === '/view-list' || location.pathname === '/chat'){
+      navigate('/view-message')
+    }
+  }
+
+  // Seleccionar un usuario
+  const handleUserSelection = (user) => {
+    dispatch(setSelectedUser(user));
+    setUsersFiltered([])
+    setUserFind("")
+    console.log('selectedUser: ',selectedUser);
+  };
 
   const filterUsers = (allUsers, userFind) => {
     return allUsers?.filter(item => item.userName.toLowerCase().includes(userFind.toLowerCase()))
@@ -91,7 +107,7 @@ const ListUsers = () => {
         usersFiltered.length === 0 && allUsers?.map((user) => (
           <div
             key={user.user_id}
-            // onClick={() => onUserSelect(user) }
+            onClick={()=>findUserInListChats(user)}
             className='flex h-[50px] items-center gap-[5px] cursor-pointer shadow'
           >
             <div className='flex w-7 h-7 ml-[5px] rounded-full bg-gray-500'>

@@ -28,7 +28,7 @@ const ContainerLists = ({socket}) => {
   return (
     <div className={`${style.container} border-2 border-slate-400`}>
       <div className='flex justify-between items-center p-[5px]   bg-slate-400 w-[100%] h-[60px]'>
-        <div className='flex w-[100%] gap-[5px]'>
+        <div className='flex w-[100%] gap-[10px]'>
           <div className='flex w-[50px] h-[50px] ml-[5px] rounded-full bg-gray-500'>
             <img className='w-full h-full object-cover rounded-full' src={`${apiUrl}/${user.image}`} alt='imagen de perfil' />
           </div>

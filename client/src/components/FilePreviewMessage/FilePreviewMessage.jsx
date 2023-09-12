@@ -17,6 +17,16 @@ const FilePreviewMessage = ({file, filePreview}) => {
     link.click();
   };
 
+  const downloadFileFromURL = (event, fileURL) => {
+    event.preventDefault();
+    console.log(fileURL)
+    const link = document.createElement('a');
+    link.href = fileURL;
+    link.download = fileURL.split("/").pop();
+    link.target = '_blank';
+    link.click()
+  }
+
   // Función para convertir un ArrayBuffer a base64
   const arrayBufferToBase64 = (buffer) => {
     let binary = "";
@@ -36,11 +46,21 @@ const FilePreviewMessage = ({file, filePreview}) => {
     return url;
   };
 
+  //Acortar el ultimo mensaje para mostrar en la lista de chats
+  const shorteningMessage = (message) => {
+    //console.log(location)
+    if(message && message.length > 20){
+      return message.slice(0, 20) + "..." + message.split(".").pop();
+    }
+    return message
+  }
+
+
   return (
     <div
-      className='flex flex-col justify-center items-center w-[100%] h-[30%]'
+      className='flex flex-col justify-center items-center w-[100%] h-[100%]'
     >
-      {
+      {/* {
         (file === "application/pdf" && file.data instanceof ArrayBuffer)
           ? <PDFPreview src={arrayBufferToUrl(file?.data, file?.type)} name={file.name} />
           : <img
@@ -49,9 +69,18 @@ const FilePreviewMessage = ({file, filePreview}) => {
             alt={file}
             className='flex w-[200px] object-scale-down'
             />
+      } */}
+        <h2>{shorteningMessage(`${file.split("/").pop()}`)}</h2>
+      {
+        // file && file.split(".").pop() === "pdf"
+        //   ? <PDFPreview src={`${apiUrl}/${file}`} name={`${file.split("/").pop()}`} /> :
+          <img
+            className='flex w-[200px] object-scale-down'
+            src={`${apiUrl}/${file}`} alt={`archivo de tipo ${file.split(".").pop()}`}
+          />
       }
       <button
-        onClick={(event) => {downloadFile(event, file)}}
+        onClick={(event) => {downloadFileFromURL(event, `${apiUrl}/${file}`)}}
       >Dowload</button>
     </div>
   )
