@@ -1,8 +1,17 @@
-@media screen and (min-width: 426px){
+@media screen and (min-width: 320px) and ( max-width: 425px){
     .nav{
         display: flex;
         justify-content: center;
         align-items: center;
+        width: 320px;
+        height: 50px;
+        background-color: rgb(1, 1, 63);
+        color: rgb(47, 146, 228);
+    }
+}
+
+@media screen and (min-width: 426px){
+    .nav{
         display: none;
     }
 }

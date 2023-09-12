@@ -9,6 +9,8 @@ import Register from './Pages/Register/Register'
 import Login from './Pages/Login/Login'
 import Chat from './Pages/Chat/Chat'
 import NavBar from './components/NavBar/NavBar'
+import ContainerListsResponsive from './Pages/ContainerListsResponsive/ContainerListsResponsive'
+import ContainerViewChatsResponsive from './Pages/ContainerViewChatsResponsive/ContainerViewChatsResponsive'
 import { setUser } from './redux/usersSlice'
 import style from './App.module.css'
 const apiUrl = import.meta.env.VITE_URL_API;
@@ -45,12 +47,14 @@ const App = () => {
   return (
     <div className={`${style.container} `}>
       { !access && !loggedUserJSON ? <Login /> : <NavBar /> }
+      <ContainerListsResponsive socket={socket} />
       <Routes>
         <Route path={'/inicio'} element={<Inicio />} />
         <Route path={'/home'} element={<Home />} />
         <Route path={'/login'} element={<Login />} />
         <Route path={'/register'} element={<Register />} />
         <Route path={'/chat'} element={<Chat socket={socket} />} />
+        <Route path={'/view'} element={<ContainerViewChatsResponsive socket={socket} />} />
         <Route path={'/*'} element={<NotFound />} />
       </Routes>
     </div>

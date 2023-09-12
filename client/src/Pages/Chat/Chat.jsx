@@ -102,10 +102,10 @@ const Chat = ({ socket }) => {
   }, [listChats]);
 
   return (
-    <div className={` flex w-[100%] border-2 ${!access && "hidden"}`}>
+    <div className={`${style.container} ${!access && "hidden"}`}>
       {
         !isMinimized ? (
-          <div className={`${style.containerChat} flex items-center justify-start border-2`}>
+          <div className={`${style.containerChat}`}>
             <ContainerLists socket={socket} />
             <ContainerViewChats socket={socket} />
             {

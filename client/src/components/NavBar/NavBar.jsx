@@ -6,7 +6,7 @@ const NavBar = () => {
   const activeStyle = 'underline'
 
   return (
-    <nav className={`${style.nav} fixed w-[100%] h-[80px] py-5 px-8 text-sm font-light border-2 top-0 bg-blue-950 text-white`}>
+    <nav className={`${style.nav}`}>
       <ul className='flex items-center gap-3'>
         <li className='flex items-center font-semibold text-lg'>
           <NavLink
