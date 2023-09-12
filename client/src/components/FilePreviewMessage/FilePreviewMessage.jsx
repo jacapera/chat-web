@@ -41,12 +41,12 @@ const FilePreviewMessage = ({file, filePreview}) => {
       className='flex flex-col justify-center items-center w-[100%] h-[30%]'
     >
       {
-        (file.type === "application/pdf" && file.data instanceof ArrayBuffer)
+        (file === "application/pdf" && file.data instanceof ArrayBuffer)
           ? <PDFPreview src={arrayBufferToUrl(file?.data, file?.type)} name={file.name} />
           : <img
           src={`${apiUrl}/${file}`}
             // src={file && file.data instanceof ArrayBuffer ? `data:${file.type};base64,${arrayBufferToBase64(file.data)}`: filePreview}
-            alt={file.name}
+            alt={file}
             className='flex w-[200px] object-scale-down'
             />
       }

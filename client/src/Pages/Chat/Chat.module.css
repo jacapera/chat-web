@@ -19,14 +19,15 @@
 }
 
 
-.container-chat{
+.containerChat{
+  background-color: aqua;
   width: 100%;
-  height: calc(100vh - 70px);
-  top:70px;
+  height: 100%;
+  /* top:70px;
   position: fixed;
   right: 0;
   left: 0;
-  z-index: 100%;
+  z-index: 100%; */
 }
 
 .chat-minimized{

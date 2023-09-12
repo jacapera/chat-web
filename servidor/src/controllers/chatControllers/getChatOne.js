@@ -22,9 +22,7 @@ const getChatOne = async (sender_id, receiver_id) => {
           },
           {
             model: Message,
-            
           }
-        
         ]
       });
       if(!chat){
@@ -32,6 +30,8 @@ const getChatOne = async (sender_id, receiver_id) => {
         error.statusCode = 404;
         throw error;
       }
+      // ordenar los mensajes por fecha de creación
+      chat.Messages.sort((a, b) => a.createdAt - b.createdAt)
       return chat;
     } catch (error) {
       throw new Error(error)

@@ -95,8 +95,119 @@ const Auxiliar = () => {
                 </ul>
               </div>
         
+
+      {/* //*CONTENEDOR PRINCIPAL PANEL IZQUIERDO */}
+            {/* <div className='flex flex-col bg-white border-2 border-slate-400 w-[30%] h-full '> */}
+
+              {/* ENCABEZADO IZQUIERDO (mi foto y username)*/}
+              {/* <div className='flex justify-between items-center p-[5px] top-[70]  bg-slate-400 w-[29.3%] h-[60px] fixed'>
+                <div className='flex gap-[5px]'>
+                  <div className='flex w-[50px] h-[50px] ml-[5px] rounded-full bg-gray-500'>
+                    <img className='w-full h-full object-cover rounded-full' src={`${apiUrl}/${image}`} alt='imagen de perfil' />
+                  </div>
+                  <h1 className='my-2 text-[25px]'>{userName}</h1>
+                </div>
+                <AddCommentIcon onClick={handleNewChat} className='text-blue-700 cursor-pointer' />
+              </div> */}
+
+              {/* <div>
+                {newChat && <ListUsers onUserSelect={handleUserSelection} socket={socket} messages={messages} />}
+              </div>
+              <div>
+                {!newChat && <ListChat onUserSelect={handleUserSelection} socket={socket} />}
+              </div>
+            </div> */}
+
+
+
     </div>
   )
 }
 
 export default Auxiliar
+
+
+//{/* //* CONTENEDOR PRINCIPAL PANEL DERECHO */}
+//<div className='flex flex-col w-[70%] h-[calc(100vh-70px)] relative pb-[0px] border-2 border-slate-500 bg-white'>
+{/* ENCABEZADO DERECHO (foto y nombre del Chat actual, ya se grupal o individual) */}
+{/* <div className='flex justify-between items-center pr-[15px] gap-1 bg-slate-500 w-[100%] h-[60px] '>
+  <div className='flex items-center  ml-[5px] gap-3'>
+    <div className='flex w-[50px] h-[50px] rounded-full bg-gray-500'> */}
+      {/* Foto del grupo o usuario al que se le envia mensajes */}
+  //     <img className='w-full h-full object-cover rounded-full'
+  //       src={(selectedUser?.UserReceived?.userName === user.userName)
+  //         ? `${apiUrl}/${selectedUser?.UserSent?.image}`
+  //         : `${apiUrl}/${selectedUser?.UserReceived?.image}` } alt='foto de perfil'
+  //     />
+  //   </div>
+  //   <h2 className='my-2 font-bold text-[25px]'>
+  //     {selectedUser?.UserReceived?.userName === user.userName
+  //       ? selectedUser?.UserSent?.userName
+  //       : selectedUser?.UserReceived?.userName}</h2>
+  // </div>
+  {/* BOTONES CHAT */}
+  // <div className='flex gap-3 p-2'>
+    {/* minimizar chat*/}
+    // <button
+    //   onClick={toggleMinimize}
+    //   className='flex justify-center items-center border-l border-r h-5 w-5 bg-gray-300 border-blue-950 rounded-md'
+    // ><h1 className='text-lg'>-</h1></button>
+    {/* cerrar chat*/}
+//     <button
+//       onClick={exitChat}
+//       className='flex justify-center items-center border-l border-r h-5 w-5 bg-gray-300 border-blue-950 rounded-md'
+//     ><h1 className='text-lg'>x</h1></button>
+//   </div>
+// </div>
+
+{/* //*CONTENEDOR DEL CHAT */}
+{/* <Messages
+  socket={socket}
+  messagePrivateFile={messagePrivateFile}
+  handleCancelUpload={handleCancelUpload}
+  selectedFile={selectedFile}
+  filePreview={filePreview}
+  preview={preview}
+/> */}
+
+
+{/** //*CONTENEDOR DEL FORM, INPUT PARA TIPEAR MENSAJE */}
+{/** //*-------------------------------------------- */}
+{/* <form onSubmit={messagePrivateFile}>
+  <div className={`flex w-[69%] justify-between h-[60px] mt-[10px] p-2 bg-gray-500 fixed bottom-0 ${preview && "hidden"}`}>
+    { // Validación
+      !selectedFile &&
+      (
+        <label className='custom-file-upload flex justify-center mr-[4px]  items-center px-[4px] py-[2px] bg-blue-500 text-white rounded md cursor-pointer'>
+          <input
+            className='hidden'
+            onKeyDown={handleKeyDow}
+            ref={fileInputRef}
+            type='file' onChange={handleFilechange}
+          />
+          <img src={adjuntarIcon} alt="adjuntar archivo"
+            className='w-[30px] h-[60px] object-cover'
+          />
+        </label>
+      )
+    }
+    <input
+      type="text"
+      onChange={handleChange}
+      onKeyDown={handleKeyDow}
+      autoComplete='off'
+      placeholder='write your message' name='messageChat' value={messageChat}
+      className='border-2 border-zinc-500 p-2 w-full text-black rounded-lg'
+    /> */}
+    {/* ENVIAR */}
+//     <button
+//       type='submit'
+//       className='bg-green-500 px-[8px] py-[9px] rounded-[50%] mx-2 hover:scale-110 flex justify-center items-center'
+//     >
+//       <img src={enviarIcon} className='w-[40px] h-[40px] mr-[6px]' />
+//     </button>
+//   </div>
+// </form>
+
+// </div>
+

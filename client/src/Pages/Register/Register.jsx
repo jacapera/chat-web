@@ -236,7 +236,7 @@ const Register = () => {
         </form>
         <div className='flex gap-[5px] justify-center items-center ' >
             <h3 className='text-sm'>¿Ya tienes cuenta?</h3>
-            <Link className='text-xs text-blue-300' to={'/'}>Sign in</Link>
+            <Link className='text-xs text-blue-300' to={'/login'}>Sign in</Link>
         </div>
       </div>
       {
