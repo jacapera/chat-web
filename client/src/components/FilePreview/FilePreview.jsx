@@ -13,7 +13,7 @@ const FilePreview = ({selectedFile, filePreview, handleCancelUpload, messagePriv
   const selectedUser = useSelector(selectSelectedUser)
   const user = useSelector(state => state.users);
 
-  console.log(filePreview)
+  //console.log(filePreview)
 
   return (
     <div

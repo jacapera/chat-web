@@ -4,12 +4,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import validation from './validation';
 import axios from 'axios';
 import adjuntarIcon from '../../assets/adjuntar.png';
-import styleRegister from './styleRegister.css'
 import { VisibilityOffOutlined, VisibilityOutlined } from '@mui/icons-material';
+import style from './Register.module.css';
+
+const urlPostUser = import.meta.env.VITE_URL_POST_USER;
 
 const Register = () => {
-  // Estados Locales
-  // -------------------------------------------------------
+
   const [formRegister, setFormRegister] = useState({
     email:"",
     userName:"",
@@ -23,8 +24,6 @@ const Register = () => {
   const [message, setMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  // Variables
-  // ---------------------------------------------------------
   const fileInputRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -91,7 +90,7 @@ const Register = () => {
         formData.append('image', formRegister.image);
 
         const response = await submitForm(formData);
-        console.log("response -> ", response)
+        //console.log("response -> ", response)
         setMessage(response);
         openModal();
         setFormErrors({});
@@ -110,7 +109,7 @@ const Register = () => {
 
   const submitForm = async (formData) => {
     try {
-      const response = await axios.post('http://localhost:3007/api/v1/users/create', formData, {
+      const response = await axios.post(urlPostUser, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       return response.data;
@@ -118,8 +117,6 @@ const Register = () => {
       throw error;
     }
   };
-
-
 
   const openModal = () => { setIsModalOpen(true) };
   const closeModal = () => {
@@ -129,7 +126,7 @@ const Register = () => {
   };
 
   useEffect(() => {
-    console.log("Form: " , formRegister);
+    //console.log("Form: " , formRegister);
     const errors = validation(formRegister);
     //console.log("TOUCH: ", touchedFields)
 
@@ -204,7 +201,7 @@ const Register = () => {
                   className='w-[30px] h-[60px] object-cover'
                 />
               </label>
-              <div className='container flex h-[30px] w-[100%] overflow-x-auto custom-scrollbar-horizontal'>
+              <div className={`container flex h-[30px] w-[100%] overflow-x-auto ${style.customScrollbarHorizontal}`}>
                 <label className='flex w-[100%] label-img text-xs text-blue-950'>{formRegister.image?.name}</label>
               </div>
             </div>
@@ -229,7 +226,7 @@ const Register = () => {
           <div className='flex justify-center'>
             <button
               className={`flex w-[fit-content] text-blue-400 p-[8px] rounded-lg mt-[10px]
-                bg-blue-950 hover:bg-blue-500 hover:text-blue-950 transform hover:scale-105 transition duration-300 buttonRegister`}
+                bg-blue-950 hover:bg-blue-500 hover:text-blue-950 transform hover:scale-105 transition duration-300 ${style.buttonRegister}`}
               type='submit'  disabled={!formValid}
             >Registrarse</button>
           </div>

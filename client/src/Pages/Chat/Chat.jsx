@@ -34,7 +34,7 @@ const Chat = ({ socket }) => {
 
   // Guardar todos los mensajes para renderizar
   const receiveMessage = async (data) => {
-    console.log("DATA", data)
+    //console.log("DATA", data)
     dispatch(setScroll(data.scroll))
     const sender_id = user.user_id;
     const receiver_id = selectedUser?.UserReceived?.user_id === user.user_id
@@ -45,7 +45,7 @@ const Chat = ({ socket }) => {
     try {
       const res1 = await dispatch(listChatsByUser({user_id:user.user_id, token}))
       const res2 = await dispatch(getOneChat({sender_id, receiver_id, token}))
-      console.log(res2.payload)
+      //console.log(res2.payload)
       dispatch(setListChats(res1.payload))
       dispatch(setSelectedUser(res2.payload))
     } catch (error) {

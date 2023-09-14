@@ -63,7 +63,7 @@ export const listChatsByUser = createAsyncThunk("app/listChatsByUser", async({us
 
 export const getOneChat = createAsyncThunk("app/getOneChat", async({sender_id, receiver_id, token}) => {
   try {
-    console.log("sender_id", sender_id, "receiver_id", receiver_id)
+    //console.log("sender_id", sender_id, "receiver_id", receiver_id)
     const { data } = await axios.get(`${VITE_URL_GETCHATSBYUSER}/${sender_id}/${receiver_id}`, {
       headers:{
         "Authorization": `Bearer ${token}`,

@@ -40,14 +40,6 @@ const ListUsers = () => {
     }
   }
 
-  // Seleccionar un usuario
-  const handleUserSelection = (user) => {
-    dispatch(setSelectedUser(user));
-    setUsersFiltered([])
-    setUserFind("")
-    console.log('selectedUser: ',selectedUser);
-  };
-
   const filterUsers = (allUsers, userFind) => {
     return allUsers?.filter(item => item.userName.toLowerCase().includes(userFind.toLowerCase()))
   }
@@ -91,7 +83,7 @@ const ListUsers = () => {
         {
           usersFiltered.map((item) => (
             <div key={item.user_id} className='flex items-center gap-[10px] p-[8px] cursor-pointer'
-              onClick={()=>handleUserSelection(item)}
+              onClick={()=>findUserInListChats(item)}
             >
               <div>
                 <img src={`${apiUrl}/${item.image}`} alt="foto de perfil"

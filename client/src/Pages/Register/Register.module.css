@@ -29,26 +29,26 @@
 
   /* scrollbar.css */
 
-.custom-scrollbar-horizontal {
+.customScrollbarHorizontal {
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap; /* Para asegurar que el contenido no se rompa en varias líneas */
 }
 
-.custom-scrollbar-horizontal::-webkit-scrollbar {
+.customScrollbarHorizontal::-webkit-scrollbar {
   height: 8px;
 }
 
-.custom-scrollbar-horizontal::-webkit-scrollbar-track {
+.customScrollbarHorizontal::-webkit-scrollbar-track {
   background-color: transparent;
   border-radius: 4px; /* Aplica el border-radius deseado */
 }
 
-.custom-scrollbar-horizontal::-webkit-scrollbar-thumb {
+.customScrollbarHorizontal::-webkit-scrollbar-thumb {
   background-color: #1A233B;
   border-radius: 4px; /* Aplica el border-radius deseado */
 }
 
-.custom-scrollbar-horizontal::-webkit-scrollbar-thumb:hover {
+.customScrollbarHorizontal::-webkit-scrollbar-thumb:hover {
   background-color: #d0ced4;
 }

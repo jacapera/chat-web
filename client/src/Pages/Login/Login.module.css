@@ -1,0 +1,5 @@
+.buttonRegister[type="submit"]:disabled {
+    background-color: #ccc;
+    color: rgb(46, 43, 43);
+    cursor: not-allowed;
+}

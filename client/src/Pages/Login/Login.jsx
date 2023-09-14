@@ -4,8 +4,9 @@ import { setUser } from '../../redux/usersSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import validation from './validation';
 import axios from 'axios';
-import styleRegister from '../Register/styleRegister.css';
 import { VisibilityOffOutlined, VisibilityOutlined } from '@mui/icons-material';
+import style from './Login.module.css';
+
 const apiUrl = import.meta.env.VITE_URL_API;
 
 const Login = () => {
@@ -21,10 +22,6 @@ const Login = () => {
   const [message, setMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-  const isLogin = useSelector(state => state.isLogin);
-  const userName = useSelector(state => state.userName);
-  const session = useSelector(state => state.session);
-  const user = useSelector(state => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -60,7 +57,7 @@ const Login = () => {
     if(auxErrors){
       await axios.post(`${apiUrl}/api/v1/users/login`, formRegister)
         .then(response => {
-          console.log(response)
+          //console.log(response)
           dispatch(setUser(response.data))
           window.localStorage.setItem(
             'loggedChatUser', JSON.stringify(response.data)
@@ -74,19 +71,17 @@ const Login = () => {
     }
   };
 
-
-
   const openModal = () => { setIsModalOpen(true) };
   const closeModal = () => {
     setIsModalOpen(false)
     setMessage('');
   };
 
-  useEffect(() => {
-    isLogin
-      ? navigate('/chat')
-      : navigate('/login')
-  }, [isLogin]);
+  // useEffect(() => {
+  //   isLogin
+  //     ? navigate('/chat')
+  //     : navigate('/login')
+  // }, [isLogin]);
 
   useEffect(() => {
     //console.log("Form: " , formRegister);
@@ -103,13 +98,6 @@ const Login = () => {
     if(Object.keys(errors).length === 0) setFormValid(true);
     else setFormValid(false);
   }, [formRegister, touchedFields]);
-
-  // useEffect(()=> {
-  //   //if()
-  //   console.log('isLogin LOGIN: ', isLogin)
-  //   console.log('message LOGIN: ', message)
-  //   console.log('USER: ', user)
-  // },[message, isLogin, session])
 
   return (
     <div className='flex w-[100%] h-[calc(100vh-80px)] justify-center fixed top-[80px] left-0  '>
@@ -149,7 +137,7 @@ const Login = () => {
           <div className='flex justify-center'>
             <button
               className={`flex w-[fit-content] text-blue-400 p-[8px] rounded-lg mt-[10px]
-                bg-blue-950 hover:bg-blue-500 hover:text-blue-950 transform hover:scale-105 transition duration-300 buttonRegister`}
+                bg-blue-950 hover:bg-blue-500 hover:text-blue-950 transform hover:scale-105 transition duration-300 ${style.buttonRegister}`}
               type='submit'  disabled={!formValid}
             >Entrar</button>
           </div>

@@ -19,7 +19,7 @@ const FilePreviewMessage = ({file, filePreview}) => {
 
   const downloadFileFromURL = (event, fileURL) => {
     event.preventDefault();
-    console.log(fileURL)
+    //console.log(fileURL)
     const link = document.createElement('a');
     link.href = fileURL;
     link.download = fileURL.split("/").pop();

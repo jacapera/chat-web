@@ -13,6 +13,7 @@ import ContainerListsResponsive from './Pages/ContainerListsResponsive/Container
 import ContainerViewChatsResponsive from './Pages/ContainerViewChatsResponsive/ContainerViewChatsResponsive'
 import { setUser } from './redux/usersSlice'
 import style from './App.module.css'
+
 const apiUrl = import.meta.env.VITE_URL_API;
 
 const App = () => {
@@ -46,16 +47,14 @@ const App = () => {
 
   return (
     <div className={`${style.containerApp} `}>
-      { !access && !loggedUserJSON ? <Login /> : <NavBar /> }
-      {location.pathname !== '/chat' ? <Chat socket={socket} /> : <ContainerListsResponsive socket={socket} />}
+      { (!access && !loggedUserJSON) ? <Login /> : <NavBar /> }
+      {location.pathname !== '/chat' && <Chat socket={socket} /> }
       {
-        location.pathname !== '/view-list' ||
-        location.pathname !== '/login'
+        location.pathname !== '/view-list'
           && <ContainerListsResponsive socket={socket} />
       }
       <Routes>
-        <Route path={'/inicio'} element={<Inicio />} />
-        <Route path={'/home'} element={<Home />} />
+        <Route path={'/'} element={<Login />} />
         <Route path={'/login'} element={<Login />} />
         <Route path={'/register'} element={<Register />} />
         <Route path={'/chat'} element={<Chat socket={socket} />} />
