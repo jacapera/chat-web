@@ -13,7 +13,7 @@ const FilePreview = ({selectedFile, filePreview, handleCancelUpload, messagePriv
   const selectedUser = useSelector(selectSelectedUser)
   const user = useSelector(state => state.users);
 
-  //console.log(filePreview)
+  //console.log(selectedFile)
 
   return (
     <div
@@ -26,13 +26,27 @@ const FilePreview = ({selectedFile, filePreview, handleCancelUpload, messagePriv
           onClick={handleCancelUpload}
         >x</button>
       </div>
-      {
-        selectedFile && (selectedFile.type === "application/pdf")
-          ? <PDFPreview url={filePreview} name={selectedFile.name} />
-          : <img src={filePreview}
-              className='w-[100%] h-[80%] object-scale-down'
-            />
-      }
+      <div>
+        {
+          selectedFile && (selectedFile.type === "video/mp4") &&
+          <div >
+            <video controls
+              className=' max-h-[320px]'
+            >
+              <source src={filePreview}></source>
+            </video>
+          </div>
+        }
+      </div>
+      <div>
+        {
+          selectedFile && (selectedFile.type === "application/pdf")
+            ? <PDFPreview url={filePreview} name={selectedFile.name} />
+            : !(selectedFile.type === "video/mp4") && <img src={filePreview}
+                className='w-[100%] h-[80%] object-scale-down'
+              />
+        }
+      </div>
       {/** icono de enviar */}
       <div className='flex justify-end w-[100%]'>
         <button

@@ -73,8 +73,17 @@ const Chat = ({ socket }) => {
   // manejo para cuando se termine la sesion
   useEffect(() => {
     if(error === "jwt expired"){
-      setMessageInfo(`${error}, inicie sesion de nuevo`)
-      openModal()
+      //setMessageInfo(`${error}, inicie sesion de nuevo`)
+      //openModal()
+      window.localStorage.removeItem('loggedChatUser')
+      dispatch(setUser({
+        user_id:"",
+        userName:"",
+        image:"",
+        token:"",
+        access:false,
+      }))
+      dispatch(setError(""))
     }
   },[error])
   // Escuchando evento para recibir mensaje en tiempo real
